@@ -14,7 +14,7 @@
 
             <div class="controls">
               <div class="input-prepend"><span class="add-on">€</span>
-              <input type="text" required="required" name="producte[preu_actual]" id="producte_preu_actual">
+              <input type="text" required="required" name="preu_actual" id="producte_preu_actual">
 
               </div>
             </div>
@@ -23,52 +23,65 @@
           <div class="control-group">
             <label class="control-label" for="producte_es_oferta">Es oferta</label>
             <div class="controls">
-              <input type="checkbox" value="1" name="producte[es_oferta]" id="producte_es_oferta">
+              <input type="checkbox" value="1" name="es_oferta" id="producte_es_oferta">
             </div>
           </div>
+
+            <div class="control-group">
+                <label class="required control-label" for="producte_preu_oferta">Preu oferta *</label>
+
+                <div class="controls">
+                    <div class="input-prepend"><span class="add-on">€</span>
+                        <input type="text" required="required" name="preu_oferta" id="producte_preu_oferta">
+
+                    </div>
+                </div>
+            </div>
 
           <div class="control-group">
             <label class="control-label" for="producte_estoc_inicial">Estoc inicial</label>
             <div class="controls">
-              <input type="number" name="producte[estoc_inicial]" id="producte_estoc_inicial">
+              <input type="number" name="estoc_inicial" id="producte_estoc_inicial">
             </div>
           </div>
 
           <div class="control-group">
             <label class="control-label" for="producte_estoc_final">Estoc final</label>
             <div class="controls">
-              <input type="number" name="producte[estoc_final]" id="producte_estoc_final">
+              <input type="number" name="estoc_final" id="producte_estoc_final">
             </div>
           </div>
 
           <div class="control-group">
             <label class="control-label" for="producte_estoc_notificacio">Estoc notificació</label>
             <div class="controls">
-              <input type="number" name="producte[estoc_notificacio]" id="producte_estoc_notificacio">
+              <input type="number" name="estoc_notificacio" id="producte_estoc_notificacio">
             </div>
           </div>
             <div class="control-group">
               <label class="required control-label" for="producte_descripcioCurta">Descripció curta</label>
               <div class="controls">
-                <textarea required="required" name="producte[descripcioCurta]" id="producte_descripcioCurta"></textarea>
+                <textarea required="required" name="descripcioCurta" id="producte_descripcioCurta"></textarea>
               </div>
             </div>
 
             <div class="control-group">
               <label class="control-label" for="producte_descripcioLlarga">Descripció llarga</label>
               <div class="controls">
-                <textarea name="producte[descripcioLlarga]" id="producte_descripcioLlarga"></textarea>
+                <textarea name="descripcioLlarga" id="producte_descripcioLlarga"></textarea>
               </div>
             </div>
 
             <div class="control-group">
               <label class="control-label" for="producte_idIdioma">Idioma</label>
               <div class="controls">
-                <select name="producte[idIdioma]" id="producte_idIdioma">
+                <select name="idIdioma" id="producte_idIdioma">
                   <option value=""></option>
                 </select>
               </div>
             </div>
+
+            <input type="hidden" value="1" name="id_idioma" />
 
         </div>
 

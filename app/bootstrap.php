@@ -26,6 +26,7 @@ $app->mount('/classificacio', new ClassificacioControllerProvider());
 $app->mount('/estocs', new EstocsControllerProvider());
 
 $app['debug'] = true;
+$app['const.idioma.ref'] = 1;
 
 // Carrega els diferents Proveidors de servei
 
@@ -60,6 +61,7 @@ $app->register(new \Silex\Provider\TranslationServiceProvider(), array('locale_f
 $app->register(new \Silex\Provider\SessionServiceProvider());
 
 // definitions
+
 $app->get('/', function () use ($app) {
     
     $output = 'hola';
