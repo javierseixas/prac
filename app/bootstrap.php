@@ -29,8 +29,9 @@ $app['debug'] = true;
 
 // Carrega els diferents Proveidors de servei
 
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
+$app->register(new \Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/Resources/views',
+    'twig.form.templates'   => array('form_div_layout.html.twig', 'common/form_div_layout.html.twig'),
 ));
 
 $app->before(function () use ($app) {
@@ -52,6 +53,11 @@ $app->register(new \Nutwerk\Provider\DoctrineORMServiceProvider(), array(
     )),
 ));
 
+$app->register(new \Silex\Provider\FormServiceProvider());
+
+$app->register(new \Silex\Provider\TranslationServiceProvider(), array('locale_fallback' => 'ca',));
+
+$app->register(new \Silex\Provider\SessionServiceProvider());
 
 // definitions
 $app->get('/', function () use ($app) {

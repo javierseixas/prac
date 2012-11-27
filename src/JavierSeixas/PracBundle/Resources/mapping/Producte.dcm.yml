@@ -1,0 +1,23 @@
+JavierSeixas\PracBundle\Entity\Producte:
+  type: entity
+  table: producte
+  id:
+    id_producte:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    preu_actual:
+      type: decimal
+      precision: 2
+    es_oferta:
+      type: boolean
+    preu_oferta:
+      type: decimal
+      precision: 2
+    estoc_inicial:
+      type: integer
+    estoc_final:
+      type: integer
+    estoc_notificacio:
+      type: integer

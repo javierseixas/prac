@@ -1,0 +1,81 @@
+{% extends layout %}
+
+{% block container %}
+
+<div class="container">
+
+    <h1>Crear nou producte</h1>
+    
+    <form method="post" action="">
+
+        <div id="producte">
+          <div class="control-group">
+            <label class="required control-label" for="producte_preu_actual">Preu actual *</label>
+
+            <div class="controls">
+              <div class="input-prepend"><span class="add-on">€</span>
+              <input type="text" required="required" name="producte[preu_actual]" id="producte_preu_actual">
+
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="producte_es_oferta">Es oferta</label>
+            <div class="controls">
+              <input type="checkbox" value="1" name="producte[es_oferta]" id="producte_es_oferta">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="producte_estoc_inicial">Estoc inicial</label>
+            <div class="controls">
+              <input type="number" name="producte[estoc_inicial]" id="producte_estoc_inicial">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="producte_estoc_final">Estoc final</label>
+            <div class="controls">
+              <input type="number" name="producte[estoc_final]" id="producte_estoc_final">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="producte_estoc_notificacio">Estoc notificació</label>
+            <div class="controls">
+              <input type="number" name="producte[estoc_notificacio]" id="producte_estoc_notificacio">
+            </div>
+          </div>
+            <div class="control-group">
+              <label class="required control-label" for="producte_descripcioCurta">Descripció curta</label>
+              <div class="controls">
+                <textarea required="required" name="producte[descripcioCurta]" id="producte_descripcioCurta"></textarea>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="producte_descripcioLlarga">Descripció llarga</label>
+              <div class="controls">
+                <textarea name="producte[descripcioLlarga]" id="producte_descripcioLlarga"></textarea>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="producte_idIdioma">Idioma</label>
+              <div class="controls">
+                <select name="producte[idIdioma]" id="producte_idIdioma">
+                  <option value=""></option>
+                </select>
+              </div>
+            </div>
+
+        </div>
+
+        <button>Crear</button>
+
+    </form>
+
+</div>
+
+{% endblock %}
