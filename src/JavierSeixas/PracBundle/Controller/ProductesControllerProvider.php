@@ -25,13 +25,6 @@ class ProductesControllerProvider implements ControllerProviderInterface
 
             $output = 'hola';
 
-                            $sql = "CALL recupera_ultim_producte(?))";
-                $stmt = $app['db']->prepare($sql);
-                $stmt->bindParam(1, $id_producte, \PDO::PARAM_INT|\PDO::PARAM_OUTPUT, 4);
-                $stmt->execute();
-
-                print_r($id_producte);
-
             return $app['twig']->render('Productes/llistat.html.twig', array(
                 'form' => $form,
             ));
@@ -41,8 +34,16 @@ class ProductesControllerProvider implements ControllerProviderInterface
 
             if ($app['request']->getMethod() == 'POST'){
 
-                $db = new \PDO('mysql:dbname=prac;host=localhost','root','javier');
+                // $db = new \PDO('mysql:dbname=prac;host=localhost','root','javier');
 
+                
+                $result = mysqli_query($app['mysqli.connect'], "CALL recupera_ultim_producte(@idprod)");
+                if ($result) {
+                    $data = $result->fetch_assoc();
+                    print_r($data);
+                } else {
+                    die('error: '.mysqli_error($mysqli));
+                }
                 // $sql = "CALL alta_producte_atribut (?, ?, ?, ?, ?, ?, @valor)";
                 // $stmt = $app['db']->prepare($sql);
                 // $stmt->bindValue(1, $app['request']->get('preu_actual'));
@@ -53,23 +54,25 @@ class ProductesControllerProvider implements ControllerProviderInterface
                 // $stmt->bindValue(6, $app['request']->get('estoc_notificacio'));
                 // $stmt->execute();
 
-                // // $sql = "CALL recupera_ultim_producte(?))";
-                // // $stmt = $db->prepare($sql);
-                // // $stmt->bindParam(1, $id_producte, \PDO::PARAM_INT|\PDO::PARAM_OUTPUT, 4000);
-                // // $stmt->execute();
+                // $sql = "CALL recupera_ultim_producte(@ultim_producte)";
+                // $stmt = $db->prepare($sql);
+                // $stmt->bindParam(1, $id_producte, \PDO::PARAM_INT, 12);
+                // $stmt->execute();
                 // $sql = "SELECT @valor";
                 // $stmt = $app['db']->prepare($sql);
                 // $stmt->execute();
                 // $valor = $stmt->fetchColumn();
 
-                // echo $valor;
+                // echo 'id: '.$id_producte;
                 // die();
 
-                $db->query("CALL alta_producte_atribut(".$app['request']->get('preu_actual').",0,".$app['request']->get('preu_oferta').",". $app['request']->get('estoc_inicial').",". $app['request']->get('estoc_final').",". $app['request']->get('estoc_notificacio').", @id_producte)");
-                $stmt = $db->query("SELECT @id_producte");
-                
-                $valor = $stmt->fetchColumn();
-                die('valor '.$valor);
+                // $db->query("CALL alta_producte_atribut(".$app['request']->get('preu_actual').",0,".$app['request']->get('preu_oferta').",". $app['request']->get('estoc_inicial').",". $app['request']->get('estoc_final').",". $app['request']->get('estoc_notificacio').", @id_producte)");
+                // $db->query("CALL recupera_ultim_producte(@ultim_producte)");
+                // $stmt_2 = $db->query("SELECT @ultim_producte");
+                // var_dump($db->query("SELECT @ultim_producte"));
+                // $id_producte = $stmt_2->fetch(\PDO::FETCH_ASSOC);
+                // print_r($id_producte);
+                die('end');
 
 
                 $sql = "CALL alta_producte_desc (?, ?, ?, ?)";

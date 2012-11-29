@@ -39,6 +39,13 @@ $app->before(function () use ($app) {
     $app['twig']->addGlobal('layout', $app['twig']->loadTemplate('layout.html.twig'));
 });
 
+$app['mysqli.connect'] = mysqli_connect(
+    $config['database']['host'], 
+    $config['database']['user'],
+    $config['database']['password'],
+    $config['database']['dbname']
+);
+
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'db.options'  => $config['database']
 ));
