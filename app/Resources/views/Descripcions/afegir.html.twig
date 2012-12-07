@@ -1,0 +1,47 @@
+{% extends "layout.html.twig" %}
+
+{% block container %}
+
+<div class="container">
+
+    <h1>Traduir producte</h1>
+    
+    <form method="post" action="">
+
+        <div>
+
+
+            <div class="control-group">
+              <label class="required control-label" for="producte_descripcioCurta">Descripció curta</label>
+              <div class="controls">
+                <textarea required="required" name="descripcioCurta" id="producte_descripcioCurta"></textarea>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="producte_descripcioLlarga">Descripció llarga</label>
+              <div class="controls">
+                <textarea name="descripcioLlarga" id="producte_descripcioLlarga"></textarea>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="producte_idIdioma">Idioma</label>
+              <div class="controls">
+                <select name="id_idioma" id="producte_idIdioma">
+                  {% for idioma in idiomes %}
+                  <option value="{{ idioma.id_idioma }}">{{ idioma.descripcio | raw }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+        </div>
+
+        <button>Traduir</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

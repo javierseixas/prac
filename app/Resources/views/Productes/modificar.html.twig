@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    <h1>Crear nou producte</h1>
+    <h1>Editar producte</h1>
     
     <form method="post" action="">
 
@@ -14,7 +14,7 @@
 
             <div class="controls">
               <div class="input-prepend"><span class="add-on">€</span>
-              <input type="text" required="required" name="preu_actual" id="producte_preu_actual">
+              <input type="text" required="required" name="preu_actual" id="producte_preu_actual" value="{{ producte.preu_actual }}">
 
               </div>
             </div>
@@ -23,7 +23,7 @@
           <div class="control-group">
             <label class="control-label" for="producte_es_oferta">Es oferta</label>
             <div class="controls">
-              <input type="checkbox" value="1" name="es_oferta" id="producte_es_oferta">
+              <input type="checkbox" value="1" name="es_oferta" id="producte_es_oferta" {% if producte.es_oferta == 1 %}checked="checked"{% endif %}>
             </div>
           </div>
 
@@ -32,7 +32,7 @@
 
                 <div class="controls">
                     <div class="input-prepend"><span class="add-on">€</span>
-                        <input type="text" required="required" name="preu_oferta" id="producte_preu_oferta">
+                        <input type="text" required="required" name="preu_oferta" id="producte_preu_oferta"  value="{{ producte.preu_oferta }}">
 
                     </div>
                 </div>
@@ -41,40 +41,27 @@
           <div class="control-group">
             <label class="control-label" for="producte_estoc_inicial">Estoc inicial</label>
             <div class="controls">
-              <input type="number" name="estoc_inicial" id="producte_estoc_inicial" required="required">
+              <input type="number" name="estoc_inicial" id="producte_estoc_inicial"  value="{{ producte.estoc_inicial }}">
             </div>
           </div>
 
           <div class="control-group">
             <label class="control-label" for="producte_estoc_final">Estoc actual</label>
             <div class="controls">
-              <input type="number" name="estoc_final" id="producte_estoc_final" required="required">
+              <input type="number" name="estoc_final" id="producte_estoc_final"  value="{{ producte.estoc_actual }}">
             </div>
           </div>
 
           <div class="control-group">
             <label class="control-label" for="producte_estoc_notificacio">Estoc notificació</label>
             <div class="controls">
-              <input type="number" name="estoc_notificacio" id="producte_estoc_notificacio">
+              <input type="number" name="estoc_notificacio" id="producte_estoc_notificacio"  value="{{ producte.estoc_notificacio }}">
             </div>
           </div>
-            <div class="control-group">
-              <label class="required control-label" for="producte_descripcioCurta">Descripció curta</label>
-              <div class="controls">
-                <textarea required="required" name="descripcioCurta" id="producte_descripcioCurta"></textarea>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label" for="producte_descripcioLlarga">Descripció llarga</label>
-              <div class="controls">
-                <textarea name="descripcioLlarga" id="producte_descripcioLlarga"></textarea>
-              </div>
-            </div>
 
         </div>
 
-        <button>Crear</button>
+        <button>Editar</button>
 
     </form>
 

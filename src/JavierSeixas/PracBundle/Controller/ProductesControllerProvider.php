@@ -15,89 +15,140 @@ class ProductesControllerProvider implements ControllerProviderInterface
 {
 	public function connect(Application $app)
     {
-        // creates a new controller based on the default route
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/', function (Application $app) {
 
-            $producte = new Producte();
-            $form = $app['form.factory']->create(new ProducteType(), $producte);
+            $sql = "SELECT p.id_producte, descripcio_curta
+                FROM producte p
+                JOIN desc_prod dp ON p.id_producte = dp.id_producte
+                WHERE id_idioma = ?
+                ORDER BY descripcio_curta";
 
-            $output = 'hola';
+            $productes = $app['db']->fetchAll($sql, array((int)$app['const.idioma.ref']));
 
             return $app['twig']->render('Productes/llistat.html.twig', array(
-                'form' => $form,
+                'productes' => $productes
             ));
         });
+
 
         $controllers->match('/crear', function (Application $app) {
 
             if ($app['request']->getMethod() == 'POST'){
 
-                // $db = new \PDO('mysql:dbname=prac;host=localhost','root','javier');
+                try {
 
-                
-                $result = mysqli_query($app['mysqli.connect'], "CALL recupera_ultim_producte(@idprod)");
-                if ($result) {
-                    $data = $result->fetch_assoc();
-                    print_r($data);
-                } else {
-                    die('error: '.mysqli_error($mysqli));
+                    if ($app['request']->get('preu_actual') <= $app['request']->get('preu_oferta') ) {
+                        throw new \Exception("El preu oferta no pot ser mes gran que el el preu normal");
+                    }
+
+                    if ($app['request']->get('es_oferta')) {
+                        $es_oferta = 1;
+                    } else {
+                        $es_oferta = 0;
+                    }
+
+                    $sql = "CALL alta_producte_atribut(".$app['request']->get('preu_actual').",".$es_oferta.",".$app['request']->get('preu_oferta').",". $app['request']->get('estoc_inicial').",". $app['request']->get('estoc_final').",". $app['request']->get('estoc_notificacio').", @id_producte)";
+
+                    $result = $app['mysqli']->query($sql);
+                    if (!$result) {
+                        throw new \Exception($app['mysqli']->error);
+                    }
+
+                    $result = $app['mysqli']->query("CALL recupera_ultim_producte(@idprod)");
+                    if ($result) {
+                        $data = $result->fetch_assoc();
+                    } else {
+                        throw new \Exception($app['mysqli']->error);
+                    }
+
+                    $app['mysqli']->next_result();
+
+                    $sql = "CALL alta_producte_desc (".$data['id_producte'].", ".$app['const.idioma.ref'].", '".$app['request']->get('descripcioCurta')."', '".$app['request']->get('descripcioLlarga')."')";
+                    $result = $app['mysqli']->query($sql);
+                    if (!$result) {
+                        throw new \Exception($app['mysqli']->error);
+                    }
+
+                    return $app->redirect('/productes');
+
+                } catch (\Exception $e) {
+                    $app['session']->setFlash('error', $e->getMessage());                    
                 }
-                // $sql = "CALL alta_producte_atribut (?, ?, ?, ?, ?, ?, @valor)";
-                // $stmt = $app['db']->prepare($sql);
-                // $stmt->bindValue(1, $app['request']->get('preu_actual'));
-                // $stmt->bindValue(2, $app['request']->get('es_oferta'));
-                // $stmt->bindValue(3, $app['request']->get('preu_oferta'));
-                // $stmt->bindValue(4, $app['request']->get('estoc_inicial'));
-                // $stmt->bindValue(5, $app['request']->get('estoc_final'));
-                // $stmt->bindValue(6, $app['request']->get('estoc_notificacio'));
-                // $stmt->execute();
 
-                // $sql = "CALL recupera_ultim_producte(@ultim_producte)";
-                // $stmt = $db->prepare($sql);
-                // $stmt->bindParam(1, $id_producte, \PDO::PARAM_INT, 12);
-                // $stmt->execute();
-                // $sql = "SELECT @valor";
-                // $stmt = $app['db']->prepare($sql);
-                // $stmt->execute();
-                // $valor = $stmt->fetchColumn();
-
-                // echo 'id: '.$id_producte;
-                // die();
-
-                // $db->query("CALL alta_producte_atribut(".$app['request']->get('preu_actual').",0,".$app['request']->get('preu_oferta').",". $app['request']->get('estoc_inicial').",". $app['request']->get('estoc_final').",". $app['request']->get('estoc_notificacio').", @id_producte)");
-                // $db->query("CALL recupera_ultim_producte(@ultim_producte)");
-                // $stmt_2 = $db->query("SELECT @ultim_producte");
-                // var_dump($db->query("SELECT @ultim_producte"));
-                // $id_producte = $stmt_2->fetch(\PDO::FETCH_ASSOC);
-                // print_r($id_producte);
-                die('end');
-
-
-                $sql = "CALL alta_producte_desc (?, ?, ?, ?)";
-                $stmt = $app['db']->prepare($sql);
-                $stmt->bindValue(1, $id_producte);
-                $stmt->bindValue(2, $app['const.idioma.ref']);
-                $stmt->bindValue(3, $app['request']->get('descripcioCurta'));
-                $stmt->bindValue(4, $app['request']->get('descripcioLlarga'));
-                $stmt->execute();
-
-
-
-                $app['session']->setFlash('notice', 'Producte creat satisfactoriament');
-
-                return $app->redirect('/productes');
-//                }
-//                else{
-//                    $app['session']->setFlash('error', 'Site was not updated. Please, check errors below');
-//                }
             }
 
             return $app['twig']->render('Productes/crear.html.twig', array(
 		    ));
         });
 
+
+        $controllers->match('/editar/{id}', function (Application $app, $id) {
+
+
+            if ($app['request']->getMethod() == 'POST'){
+
+                try {
+
+                    if ($app['request']->get('preu_actual') <= $app['request']->get('preu_oferta') ) {
+                        throw new \Exception("El preu oferta no pot ser mes gran que el el preu normal");
+                    }
+
+                    if ($app['request']->get('es_oferta')) {
+                        $es_oferta = 1;
+                    } else {
+                        $es_oferta = 0;
+                    }
+
+                    $sql = "CALL modifica_producte_atribut(".$app['request']->get('preu_actual').",".$es_oferta.",".$app['request']->get('preu_oferta').",". $app['request']->get('estoc_inicial').",". $app['request']->get('estoc_final').",". $app['request']->get('estoc_notificacio').", ".(int)$id.")";
+                    
+                    $result = $app['mysqli']->query($sql);
+                    if (!$result) {
+                        throw new \Exception($app['mysqli']->error);
+                    }
+
+                    $app['session']->setFlash('notice', 'Producte modificat satisfactoriament');
+
+                } catch (\Exception $e) {
+                    $app['session']->setFlash('error', $e->getMessage());                    
+                }
+
+            }
+
+
+            $sql = "SELECT *
+                FROM producte p
+                WHERE id_producte = ?";
+
+            $producte = $app['db']->fetchAssoc($sql, array((int)$id));
+
+            return $app['twig']->render('Productes/modificar.html.twig', array(
+                'producte' => $producte
+            ));
+        });
+
+        $controllers->match('/eliminar/{id}', function (Application $app, $id) {
+
+            try {
+
+                $sql = "CALL baixa_producte(".(int)$id.")";
+                
+                $result = $app['mysqli']->query($sql);
+                if (!$result) {
+                    throw new \Exception($app['mysqli']->error);
+                }
+
+                $app['session']->setFlash('notice', 'Producte eliminat satisfactoriament');
+
+            } catch (\Exception $e) {
+                $app['session']->setFlash('error', $e->getMessage());                    
+            }
+
+            return $app->redirect('/productes');
+
+        });
+        
         return $controllers;
     }
 

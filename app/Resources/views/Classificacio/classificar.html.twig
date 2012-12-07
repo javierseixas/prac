@@ -1,0 +1,31 @@
+{% extends "layout.html.twig" %}
+
+{% block container %}
+
+<div class="container">
+
+    <h1>Classificar producte</h1>
+    
+    <form method="post" action="">
+
+        <div id="producte">
+
+          {% for categoria in categories %}
+          <div class="control-group">
+            <label class="control-label" for="cat-{{ categoria.id_tipus_producte }}">{{ categoria.descripcio }}</label>
+            <div class="controls">
+              <input type="checkbox" value="{{ categoria.id_tipus_producte }}" name="classificacio[]" id="cat-{{ categoria.id_tipus_producte }}"" {% if categoria.id_tipus_producte in categories_act_ids %}checked="checked"{% endif %}>
+            </div>
+          </div>
+          {% endfor %}
+
+
+        </div>
+
+        <button>Classificar</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

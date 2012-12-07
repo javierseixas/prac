@@ -1,0 +1,41 @@
+{% extends "layout.html.twig" %}
+
+{% block container %}
+
+<div class="container">
+
+    <h1>Traduir producte</h1>
+    
+    <form method="post" action="">
+
+        {% for traduccio in traduccions %}
+
+        <fieldset>
+
+          <legend>{{ traduccio.descripcio | raw }}</legend>
+
+          <div class="control-group">
+            <label class="required control-label" for="producte_descripcioCurta">Descripció curta</label>
+            <div class="controls">
+              <textarea required="required" name="idioma_{{ traduccio.id_idioma}}[descripcioCurta]" id="producte_descripcioCurta">{{ traduccio.descripcio_curta }}</textarea>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="producte_descripcioLlarga">Descripció llarga</label>
+            <div class="controls">
+              <textarea name="idioma_{{ traduccio.id_idioma}}[descripcioLlarga]" id="producte_descripcioLlarga">{{ traduccio.descripcio_llarga }}</textarea>
+            </div>
+          </div>
+
+        </fieldset>
+
+        {% endfor %}
+
+        <button>Traduir</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "layout.html.twig" %}
+
+{% block container %}
+
+<div class="container">
+
+    <h1>Estoc producte {{ producte.descripcio_curta }}</h1>
+    
+    <form method="post" action="">
+
+        <div id="producte">
+
+          <div class="control-group">
+            <label class="control-label" for="producte_estoc_final">Estoc actual</label>
+            <div class="controls">
+              <input type="number" name="estoc_final" id="producte_estoc_final"  value="{{ producte.estoc_actual }}">
+            </div>
+          </div>
+
+        </div>
+
+        <button>Editar</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "layout.html.twig" %}
+
+{% block container %}
+
+<div class="container">
+
+    <h1>Desclassificar categoria</h1>
+    
+    <form method="post" action="">
+
+        <div id="producte">
+
+            <div class="control-group">
+              <label class="control-label" for="producte_idIdioma">Categoria genèrica</label>
+              <div class="controls">
+                <select name="generic" id="producte_idIdioma">
+                  {% for categoria in categories %}
+                  <option value="{{ categoria.id_tipus_producte }}">{{ categoria.descripcio | raw }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+        </div>
+
+        <button>Desclassificar</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

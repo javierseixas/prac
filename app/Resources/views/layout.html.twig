@@ -5,7 +5,8 @@
 	<title>Administrador Botiga</title>
 	<meta name="description" content="">
 	<meta name="author" content="Javier Seixas">
-	<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/custom.css">
 	<!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -26,10 +27,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="/">Administració botiga</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="/productes">Productes</a></li>
+              <li class="active-"><a href="/productes">Productes</a></li>
               <li><a href="/descripcions">Descripcions</a></li>
               <li><a href="/categories">Categories</a></li>
               <li><a href="/classificacio">Classificació</a></li>
@@ -41,10 +42,37 @@
     </div>
 
     <div class="container">
+
+          {% if silex.session.hasFlash('notice') %}
+          <div class="alert alert-success in fade" style="display: inline-block">
+              <a class="close" data-dismiss="alert">×</a>
+              {{ silex.session.getFlash('notice') }}
+          </div>
+          {% endif %}
+
+          {% if silex.session.hasFlash('error') %}
+          <div class="alert alert-error in fade" style="display: inline-block">
+              <a class="close" data-dismiss="alert">×</a>
+              {{ silex.session.getFlash('error') }}
+          </div>
+          {% endif %}
+
+          {% if silex.session.hasFlash('login-error') %}
+            <div class="alert alert-error in fade" style="display: inline-block">
+                <a class="close" data-dismiss="alert">×</a>
+                {{ silex.session.getFlash('login-error') }}
+            </div>
+          {% endif %}
+          {% if silex.session.hasFlash('txn-ok') %}
+            <div class="alert alert-success in fade" style="display: inline-block">
+                <a class="close" data-dismiss="alert">×</a>
+                {{ silex.session.getFlash('txn-ok') }}
+            </div>
+          {% endif %}
     
     	{% block container %}
-			<h1>Bootstrap starter template</h1>
-			<p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+			<h1>Administració botiga</h1>
+			<p>Benvingut a l'administració. Disposa del menú per gestionar els productes a la part superior del seu navegador.</p>
       	{% endblock %}
 
     </div> <!-- /container -->

@@ -1,0 +1,57 @@
+{% extends "layout.html.twig" %}
+
+{% block container %}
+
+<div class="container">
+
+    <h1>Afegir traducció a categoria</h1>
+    
+    <form method="post" action="">
+
+        <div id="producte">
+
+            <div class="control-group">
+              <label class="required control-label" for="id_tipus_producte">ID Tipus producte *</label>
+
+              <div class="controls">
+                <input type="text" required="required" name="id_tipus_producte" id="id_tipus_producte" value="{{ id_tipus }}">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="producte_idIdioma">Idioma</label>
+              <div class="controls">
+                <select name="id_idioma" id="producte_idIdioma">
+                  {% for idioma in idiomes %}
+                  <option value="{{ idioma.id_idioma }}">{{ idioma.descripcio | raw }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="required control-label" for="descripcio">Descripció *</label>
+
+              <div class="controls">
+                <input type="text" required="required" name="descripcio" id="descripcio" max-lenght="50">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="required control-label" for="dte">Descompte *</label>
+
+              <div class="controls">
+                <input type="text" required="required" name="dte" id="dte">
+              </div>
+            </div>
+
+
+        </div>
+
+        <button>Crear</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

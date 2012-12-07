@@ -4,9 +4,7 @@
 
 <div class="container">
 
-    <h1>Productes</h1>
-
-    <p><a href="/productes/crear" class="btn btn-primary">Crear producte</a></p>
+  <h1>Estocs</h1>
     
     <table class="table table-hover">
    		<thead>
@@ -19,7 +17,7 @@
         {% for producte in productes %}
    			<tr>
    				<td>{{ producte.descripcio_curta }}</td>
-   				<td><a href="/productes/editar/{{ producte.id_producte }}">editar</a> | <a href="/productes/eliminar/{{ producte.id_producte }}">eliminar</a></td>
+   				<td><a href="/estocs/modificar/{{ producte.id_producte }}">reestocar</a></td>
    			</tr>
         {% endfor %}
    		</tbody>

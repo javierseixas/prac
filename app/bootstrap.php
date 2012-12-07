@@ -35,47 +35,34 @@ $app->register(new \Silex\Provider\TwigServiceProvider(), array(
     'twig.form.templates'   => array('form_div_layout.html.twig', 'common/form_div_layout.html.twig'),
 ));
 
-$app->before(function () use ($app) {
-    $app['twig']->addGlobal('layout', $app['twig']->loadTemplate('layout.html.twig'));
+$app['mysqli'] = $app->share(function () use($config) {
+    return new mysqli(
+        $config['database']['host'], 
+        $config['database']['user'],
+        $config['database']['password'],
+        $config['database']['dbname']
+    );
 });
-
-$app['mysqli.connect'] = mysqli_connect(
-    $config['database']['host'], 
-    $config['database']['user'],
-    $config['database']['password'],
-    $config['database']['dbname']
-);
 
 $app->register(new \Silex\Provider\DoctrineServiceProvider(), array(
     'db.options'  => $config['database']
 ));
 
-$app->register(new \Nutwerk\Provider\DoctrineORMServiceProvider(), array(
-    'db.orm.proxies_dir'           => __DIR__.'/cache/doctrine/Proxy',
-    'db.orm.proxies_namespace'     => 'DoctrineProxy',
-    'db.orm.auto_generate_proxies' => true,
-    'db.orm.entities'              => array(array(
-        'type'      => 'yml',
-        'path'      => __DIR__.'/../src/JavierSeixas/PracBundle/Resources/mapping',
-        'namespace' => 'JavierSeixas\PracBundle\Entity',
-    )),
-));
-
-$app->register(new \Silex\Provider\FormServiceProvider());
-
-$app->register(new \Silex\Provider\TranslationServiceProvider(), array('locale_fallback' => 'ca',));
-
 $app->register(new \Silex\Provider\SessionServiceProvider());
+
+
+$app['twig'] = $app->share($app->extend('twig', function($twig, $app) {
+    $twig->addGlobal('silex', $app);
+
+    return $twig;
+}));
+
 
 // definitions
 
 $app->get('/', function () use ($app) {
-    
-    $output = 'hola';
 
-    return $app['twig']->render('layout.html.twig', array(
-        'name' => $output,
-    ));
+    return $app['twig']->render('layout.html.twig', array());
 
     return $output;
 });
